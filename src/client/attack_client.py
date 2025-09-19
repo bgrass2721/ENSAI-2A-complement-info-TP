@@ -1,10 +1,11 @@
-import os
 import json
+import os
+from typing import Optional
+
 import requests
 
-from typing import List, Optional
-from business_object.attack.attack_factory import AttackFactory
 from business_object.attack.abstract_attack import AbstractAttack
+from business_object.attack.attack_factory import AttackFactory
 from utils.singleton import Singleton
 
 END_POINT = "/attack"
@@ -39,7 +40,14 @@ class AttackClient(metaclass=Singleton):
 
             print("Réponse JSON obtenue :\n" + json.dumps(raw_attack, indent=2) + "\n")
 
-            # TODO
+            attack = AttackFactory().instantiate_attack(
+                type=raw_attack["attack_type"],
+                id=raw_attack["id"],
+                power=raw_attack["power"],
+                name=raw_attack["name"],
+                description=raw_attack["description"],
+                accuracy=raw_attack["accuracy"],
+                element=raw_attack["element"])
             #   create an attack using the data contained in the json
             #   see class AttackFactory to do this
 
